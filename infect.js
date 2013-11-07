@@ -12,21 +12,23 @@
 }(this, function () {
 	var strains = {};
 
-	function add(name, value) {
-		strains[name] = value;
+	function infect(name, value) {
+		// adding a new strain
+		if (typeof name === 'string' && value) {
+			if (strains[name]) { throw ' :: infect.js => ' + name + ' was already assigned!'; }
+			strains[name] = value;
+		} else if (typeof name === 'string' && value === undefinded) {
+			return strains[name] || null;
+		}
 	}
 
-	function diagnose(args) {
+	function getStrains(args) {
 		var i, len, arg;
-		for (i = 0, len = args.length; i < len; i++) {
+		for (i = 1, len = args.length; i < len; i++) {
 			arg = args[i];
-			// skip the arguments param
-			if (arg === 'arguments') { continue; }
 
 			args[i] = strains[arg] || null;
-			if (args[i] === null) {
-				throw 'Could not locate viral strain ' + arg;
-			}
+			if (args[i] === null) { throw ' :: infect.js => Could not inject ' + arg; }
 		}
 		return args;
 	}
@@ -37,7 +39,7 @@
 		params = params || [];
 		params.unshift('arguments');
 		var paramsText = params.join(', ');
-		params = diagnose(params);
+		params = getStrains(params);
 
 		var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
 		// var FN_ARG_SPLIT = /,/;
@@ -56,8 +58,5 @@
 		};
 	};
 
-    return {
-		add: add,
-		diagnose: diagnose
-    };
+    return infect;
 }));
