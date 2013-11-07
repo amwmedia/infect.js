@@ -20,6 +20,9 @@
 		var i, len, arg;
 		for (i = 0, len = args.length; i < len; i++) {
 			arg = args[i];
+			// skip the arguments param
+			if (arg === 'arguments') { continue; }
+
 			args[i] = strains[arg] || null;
 			if (args[i] === null) {
 				throw 'Could not locate viral strain ' + arg;
@@ -32,11 +35,10 @@
 	Function.prototype.infect = function (scope, params) {
 		scope = scope || {};
 		params = params || [];
+		params.unshift('arguments');
 		var paramsText = params.join(', ');
-		if (paramsText) {
-			paramsText += ', ';
-		}
 		params = diagnose(params);
+
 		var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
 		// var FN_ARG_SPLIT = /,/;
 		// var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
@@ -44,10 +46,12 @@
 		var func = this;
 		var funcText = func.toString();
 		var origArgs = funcText.match(FN_ARGS)[1];
-		func = eval('(' + funcText.replace(origArgs, paramsText + origArgs) + ')');
+		var delimiter = (origArgs.indexOf(',') !== -1) ? ',' : '';
+		func = eval('(' + funcText.replace(origArgs, paramsText + delimiter + origArgs) + ')');
 
 		return function () {
 			var fargs = Array.prototype.concat.apply(params, arguments);
+			fargs[0] = arguments;
 			func.apply(scope, fargs);
 		};
 	};
