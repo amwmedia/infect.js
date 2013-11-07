@@ -7,7 +7,7 @@
         module.exports = factory();
     } else {
         // Browser globals
-        root.virus = factory();
+        root.infect = factory();
   }
 }(this, function () {
 	var strains = {};
