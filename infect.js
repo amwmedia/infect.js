@@ -10,12 +10,13 @@
         root.infect = factory();
   }
 }(this, function () {
-	var strains = {};
+	var strains = {},
+		type = Function.prototype.call.bind(Object.prototype.toString);
 
-	function infect(name, value, that) {
-		var params, key, paramsText, func, origArgs, scope, i;
+	function infect(name, value) {
+		var i, key;
 		// adding a new strain must be a mutable value
-		if (typeof name === 'string' && value && 'object|function'.indexOf(typeof value) !== -1) {
+		if (typeof name === 'string' && value && value instanceof Object) {
 			strains[name] = value;
 
 		// fetching an existing strain
@@ -23,28 +24,20 @@
 			return strains[name] || undefined;
 
 		// infecting a function is strains
-		} else if (typeof name === 'function' && value instanceof Array) {
+		} else if (type(name) === '[object Object]' && value instanceof Array) {
 			// assign parameters to more logical names
-			func = name;
-			params = value;
-
-			scope = { 'this': that };
-
-			i = params.length;
+			i = value.length;
 			for (; i-- ;) {
-				key = params[i];
+				key = value[i];
 				if (typeof key !== 'string') { throw ' :: infect.js => Keys must be strings'; }
-				scope[key] = infect(key);
-				if (scope[key] === undefined) { throw ' :: infect.js => Could not inject ' + arg; }
+				name[key] = infect(key);
+				if (name[key] === undefined) { throw ' :: infect.js => Could not inject ' + arg; }
 			}
-
-			return function () {
-				func.apply(scope, arguments);
-			};
+			return name;
 
 		// everything else is invalid
 		} else {
-			throw ' :: infect.js => invalid use of infect()';
+			throw ' :: infect.js => invalid use of infect(' + type(name) + ', ' + type(value) + ')';
 		}
 	}
 
