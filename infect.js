@@ -18,10 +18,12 @@
 		var i, key, args, argCount;
 		// adding a new strain must be a mutable value
 		if (typeof name === 'string' && value && value instanceof Object) {
+			name = name.indexOf(op) === 0 ? name.substr(op.length) : name;
 			strains[name] = value;
 
 		// fetching an existing strain
 		} else if (typeof name === 'string' && value === undefined) {
+			name = name.indexOf(op) === 0 ? name.substr(op.length) : name;
 			return strains[name] || undefined;
 
 		// infecting a function is strains
@@ -30,9 +32,10 @@
 			i = value.length;
 			for (; i-- ;) {
 				key = value[i];
+				key = key.indexOf(op) === 0 ? key.substr(op.length) : key;
 				if (typeof key !== 'string') { throw ' :: infect.js => Keys must be strings'; }
-				name[key] = infect(key);
-				if (name[key] === undefined) { throw ' :: infect.js => Could not inject ' + arg; }
+				name[op + key] = infect(key);
+				if (name[op + key] === undefined) { throw ' :: infect.js => Could not inject ' + key; }
 			}
 			return name;
 
@@ -51,25 +54,25 @@
 					args = args.slice(i+1);
 					break;
 				}
-				args[i] = infect(key.substr(1));
+				args[i] = infect(key);
 			}
 
 			return function () {
-				var arguments = Array.prototype.slice.call(arguments),
-					len = arguments.length + args.length;
+				var _args = Array.prototype.slice.call(arguments),
+					len = _args.length + args.length;
 
 				for (; len < argCount; len++) {
-					arguments.push(undefined);
+					_args.push(undefined);
 				}
 
 				if (len > argCount) { throw ' :: infect.js => Too many parameters! I expected <= ' +
-											(argCount - args.length) + ' but got ' + arguments.length; }
+											(argCount - args.length) + ' but got ' + _args.length; }
 
 				// combine the injected params and actual params
-				arguments = arguments.concat(args);
+				_args = _args.concat(args);
 				
 				// execute the injected function
-				name.apply(value, arguments);
+				name.apply(value, _args);
 			};
 
 		// everything else is invalid
