@@ -1,6 +1,6 @@
-# Infect.js &raquo; A Simple Dependency Injection Library
+# Infect.js &raquo; Simple Dependency Injection
 
-Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application. Dependency injection has many benefits. Asside from making your module definition cleaner, it also gives you a way to globally change certain services based on the environment they are loaded in, and allows you to write more modular code.
+Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application.
 
 # Features
 
@@ -12,7 +12,7 @@ Infect.js is a simple way to add the magic of dependency injection to any web pr
 # Getting Started
 
 ### Registering a dependency
-A simple call to `infect()` with the name you want to use, and the mutible object you'd like to register will do the trick. In the example below we are using a function, but you can register any type of mutible value (Dates, Arrays, Objects, etc).
+A simple call to `infect()` with the name you want to use, and the mutable object you'd like to register will do the trick. In the example below we are using a function, but you can register any type of mutable value (Dates, Arrays, Objects, etc).
 
 ```javascript
 infect('Logger', function (str) {
@@ -39,7 +39,7 @@ foo('Joe', 27); // bar!
 ### Object Injection
 Sometimes function injection may not work for you, but you'd still like an easy way to pull multiple dependencies into a single place for reference within your code. Object injection suits this nicely and can be done by simply calling `infect()` with an object and an array of dependency names you'd like injected. Please node that any object can be infected except the global `Window` object (for obvious reasons). If you try to infect the global scope, `infect()` will throw an error.
 
-*NOTE:* You can reference the depenency with or without the prepended dollar sign (`$`) but, in either case, *the object will be infected with the prepended version*.
+*NOTE:* You can reference the dependency with or without the prepended dollar sign (`$`) but, in either case, *the object will be infected with the prepended version*.
 
 ```javascript
 var INFECTED = infect({}, ['$Logger']);
@@ -55,7 +55,7 @@ ALSO_INFECTED.$Logger('bar!');
 ```
 
 ### Assignment
-As a simple way to reference your dependencies, you can pull them out and assign individual dependencies to variables. This is not recommended as it breaks the consistancy of your code, but it is possible so I wanted to show an example of usage.
+As a simple way to reference your dependencies, you can pull them out and assign individual dependencies to variables. This is not recommended as it breaks the consistency of your code, but it is possible so I wanted to show an example of usage.
 
 ```javascript
 var log = infect('Logger');
