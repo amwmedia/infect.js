@@ -6,12 +6,12 @@ Infect.js is a simple way to add the magic of dependency injection to any web pr
 
  - Extremely lightweight (1.1 Kb minified)
  - Supports module loading systems (RequireJS/AMD, Node.js) with browser global fallback.
- - Easy to register dependencies (strains) with a single call to `infect()`
+ - Easy to register dependencies with a single call to `infect()`
  - 3 ways to infect your code (function, object, and assignment)
 
 # Getting Started
 
-### Registering a dependency (or strain)
+### Registering a dependency
 A simple call to `infect()` with the name you want to use, and the mutible object you'd like to register will do the trick. In the example below we are using a function, but you can register any type of mutible value (Dates, Arrays, Objects, etc).
 
 ```javascript
@@ -21,7 +21,7 @@ infect('Logger', function (str) {
 });
 ```
 
-### Function Infection
+### Function Injection
 When you're writing a function that you know will need one of your dependencies, simply pass it to `infect` and reference the dependencies as parameters that are prepended with a dollar sign (`$`). All dependencies should be added to the end of the parameter list, and they are not expected when you call the function. Optionally you may pass in an object that you want to be used as `this` inside the function.
 
 ```javascript
@@ -36,8 +36,8 @@ foo('Joe', 27); // bar!
 // 11:50:37 PM ==> Joe is 27
 ```
 
-### Object Infection
-Sometimes function infection may not work for you, but you'd still like an easy way to pull multiple dependencies into a single place for reference within your code. Object infection suits this nicely and can be done by simply calling `infect()` with an object and an array of dependency names you'd like injected. Please node that any object can be infected except the global `Window` object (for obvious reasons). If you try to infect the global scope, `infect()` will throw an error.
+### Object Injection
+Sometimes function injection may not work for you, but you'd still like an easy way to pull multiple dependencies into a single place for reference within your code. Object injection suits this nicely and can be done by simply calling `infect()` with an object and an array of dependency names you'd like injected. Please node that any object can be infected except the global `Window` object (for obvious reasons). If you try to infect the global scope, `infect()` will throw an error.
 
 *NOTE:* You can reference the depenency with or without the prepended dollar sign (`$`) but, in either case, *the object will be infected with the prepended version*.
 
@@ -55,7 +55,7 @@ ALSO_INFECTED.$Logger('bar!');
 ```
 
 ### Assignment
-As a simple way to reference your dependencies, you can pull them out and assign individual strains to variables. This is not recommended as it breaks the consistancy of your code, but it is possible so I wanted to show an example of usage.
+As a simple way to reference your dependencies, you can pull them out and assign individual dependencies to variables. This is not recommended as it breaks the consistancy of your code, but it is possible so I wanted to show an example of usage.
 
 ```javascript
 var log = infect('Logger');
