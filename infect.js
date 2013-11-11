@@ -100,10 +100,12 @@
 	}
 
     return {
-		set: set,
-		get: get,
-		obj: obj,
-		func: func,
-		funk: func
+		'set': set,
+		'get': get,
+		'obj': obj,
+		'object': obj,
+		'func': func,
+		'function': func,
+		'funk': func
     };
 }));
