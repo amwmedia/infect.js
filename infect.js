@@ -31,7 +31,7 @@
 	}
 
 	function set(name, value) {
-		if (type(name) === 'string' && value && value instanceof Object) {
+		if (type(name) === 'string' && type(value) !== 'undefined' && value instanceof Object) {
 			name = name.indexOf(op) === 0 ? name.substr(op.length) : name;
 			strains[name] = value;
 		} else { fail('set', name, value); }
@@ -106,6 +106,6 @@
 		'object': obj,
 		'func': func,
 		'function': func,
-		'funk': func
+		funk: func
     };
 }));
