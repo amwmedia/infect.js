@@ -12,39 +12,61 @@
 }(this, function () {
 	var strains = {},
 		op = '$',
-		type = Function.prototype.call.bind(Object.prototype.toString);
+		preErr = ' :: infect.js => ';
 
-	function infect(name, value) {
-		var i, key, args, argCount;
-		// adding a new strain must be a mutable value
-		if (typeof name === 'string' && value && value instanceof Object) {
+	function type(o) {
+		o = Object.prototype.toString.call(o);
+		return o.match(/ (.*)]/)[1].toLowerCase();
+	}
+
+	function fail(f) {
+		var params = Array.prototype.slice.call(arguments, 1),
+			pText = '', i;
+
+		for (i=0; i<params.length; i++) {
+			pText += (pText.legnth > 0) ? ', ' + type(params[i]) : type(params[i]);
+		}
+
+		throw preErr + 'Invalid function parameters infect.' + f + '(' + pText + ')';
+	}
+
+	function set(name, value) {
+		if (type(name) === 'string' && value && value instanceof Object) {
 			name = name.indexOf(op) === 0 ? name.substr(op.length) : name;
 			strains[name] = value;
+		} else { fail('set', name, value); }
+	}
 
-		// fetching an existing strain
-		} else if (typeof name === 'string' && value === undefined) {
+	function get(name) {
+		if (type(name) === 'string') {
 			name = name.indexOf(op) === 0 ? name.substr(op.length) : name;
 			return strains[name] || undefined;
+		} else { fail('get', name); }
+	}
 
-		// infecting a function is strains
-		} else if (type(name) === '[object Object]' && value instanceof Array) {
+	function obj(object, list) {
+		var key, i;
+		if (type(object) === 'Object' && list instanceof Array) {
 			// assign parameters to more logical names
-			i = value.length;
+			i = list.length;
 			for (; i-- ;) {
-				key = value[i];
+				key = list[i];
 				key = key.indexOf(op) === 0 ? key.substr(op.length) : key;
-				if (typeof key !== 'string') { throw ' :: infect.js => Keys must be strings'; }
-				name[op + key] = infect(key);
-				if (name[op + key] === undefined) { throw ' :: infect.js => Could not inject ' + key; }
+				if (type(key) !== 'string') { throw preErr + ' Keys must be strings'; }
+				object[op + key] = get(key);
+				if (object[op + key] === undefined) { throw preErr + 'Could not inject ' + key; }
 			}
-			return name;
+			return object;
+		} else { fail('obj', object, list); }
+	}
 
-		// infecting a function is strains
-		} else if (type(name) === '[object Function]') {
-			value = value || {};
+	function func(fnc, scope) {
+		var i, key, args, argCount;
+		if (type(fnc) === 'function') {
+			scope = scope || {};
 			
 			// pull the function's parameters as a string
-			args = /\(([^)]+)/.exec(name.toString())[1];
+			args = /\(([^)]+)/.exec(fnc.toString())[1];
 			if (args) { args = args.split(/\s*,\s*/); }
 
 			i = argCount = args.length;
@@ -54,7 +76,7 @@
 					args = args.slice(i+1);
 					break;
 				}
-				args[i] = infect(key);
+				args[i] = get(key);
 			}
 
 			return function () {
@@ -65,21 +87,23 @@
 					_args.push(undefined);
 				}
 
-				if (len > argCount) { throw ' :: infect.js => Too many parameters! I expected <= ' +
+				if (len > argCount) { throw preErr + 'Too many parameters! I expected <= ' +
 											(argCount - args.length) + ' but got ' + _args.length; }
 
 				// combine the injected params and actual params
 				_args = _args.concat(args);
 				
 				// execute the injected function
-				name.apply(value, _args);
+				fnc.apply(scope, _args);
 			};
-
-		// everything else is invalid
-		} else {
-			throw ' :: infect.js => invalid use of infect(' + type(name) + ', ' + type(value) + ')';
-		}
+		} else { fail('func', fnc, scope); }
 	}
 
-    return infect;
+    return {
+		set: set,
+		get: get,
+		obj: obj,
+		func: func,
+		funk: func
+    };
 }));
