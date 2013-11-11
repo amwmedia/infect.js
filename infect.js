@@ -24,7 +24,7 @@
 			pText = '', i;
 
 		for (i=0; i<params.length; i++) {
-			pText += (pText.legnth > 0) ? ', ' + type(params[i]) : type(params[i]);
+			pText += (pText.length > 0) ? ', ' + type(params[i]) : type(params[i]);
 		}
 
 		throw preErr + 'Invalid function parameters infect.' + f + '(' + pText + ')';
