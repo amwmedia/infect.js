@@ -46,7 +46,7 @@
 
 	function obj(object, list) {
 		var key, i;
-		if (type(object) === 'Object' && list instanceof Array) {
+		if (type(object) === 'object' && list instanceof Array) {
 			// assign parameters to more logical names
 			i = list.length;
 			for (; i-- ;) {
