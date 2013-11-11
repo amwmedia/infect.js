@@ -80,4 +80,4 @@ log('foo bar!');
 ```
 
 # jsFiddle Example
-<iframe width="100%" height="300" src="http://jsfiddle.net/amwmedia/56TYQ/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+Please feel free to checkout and fork [this jsFiddle](http://jsfiddle.net/amwmedia/56TYQ).
