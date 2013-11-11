@@ -10,7 +10,10 @@ Infect.js is a simple way to add the magic of dependency injection to any web pr
 
 # Getting Started
 ### Registering a dependency
-usage: `infect.set`
+`infect.set(String key, Object value)`
+`infect.set(String key, Function value)`
+`infect.set(String key, Date value)`
+`etc...`
 
 A simple call to `infect.set()` with the name you want to use, and the mutable object you'd like to register will do the trick. In the example below we are using a function, but you can register any type of mutable value (Dates, Arrays, Objects, etc).
 
@@ -22,7 +25,7 @@ infect.set('Logger', function (str) {
 ```
 
 ### Function Injection
-usage: `infect.function`, `infect.func`
+`infect.func(Function toInject, Object this)`
 
 When you're writing a function that needs one or more dependency, simply pass it to `infect.func()` and reference the dependencies as parameters that are prepended with a dollar sign (`$`). All dependencies should be added to the end of the parameter list, and they are not expected when you call the function. Optionally you may pass in an object that you want to be used as `this` inside the function.
 
@@ -39,7 +42,7 @@ foo('Joe', 27); // bar!
 ```
 
 ### Object Injection
-usage: `infect.object`, `infect.obj`
+`infect.obj(Object toInject, Array keyList)`
 
 Sometimes function injection may not work for you, but you'd still like an easy way to pull multiple dependencies into a single place for reference within your code. Object injection suits this nicely and can be done by simply calling `infect.obj()` with an object and an array of dependency names you'd like to have injected. Please node that any object can be injected except the global `Window` object (for obvious reasons). If you try to infect the global scope, `infect` will throw an error.
 
@@ -59,7 +62,7 @@ ALSO_INFECTED.$Logger('bar!');
 ```
 
 ### Assignment
-usage: `infect.get`
+`infect.get(String key)`
 
 As a simple way to reference your dependencies, you can pull them out and assign individual dependencies to variables. This is not recommended as it breaks the consistency of your code, but it is possible so I wanted to show an example of usage.
 
