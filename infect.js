@@ -106,6 +106,6 @@
 		'object': obj,
 		'func': func,
 		'function': func,
-		funk: func
+		'funk': func
     };
 }));
