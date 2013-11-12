@@ -1,6 +1,6 @@
-# Infect.js &raquo; Simple Dependency Injection
+# Infect.js
 
-Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application.
+Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application. It's infectiously simple!
 
 # Features
  - Extremely lightweight (under 1kb min+gz)
