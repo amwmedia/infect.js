@@ -3,10 +3,11 @@
 Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application.
 
 # Features
- - Extremely lightweight (1.4 Kb minified)
+ - Extremely lightweight (1.5 Kb minified)
+ - Has no dependencies of its own
  - Supports module loading systems (RequireJS/AMD, Node.js) with browser global fallback.
  - Easy to inject multiple dependencies with a single call to `infect`
- - 3 ways to inject your code (function, object, and assignment)
+ - 4 ways to inject your code (function, class, object, and assignment)
 
 # Getting Started
 ### Registering a dependency
@@ -40,6 +41,28 @@ foo('Joe', 27); // bar!
 
 // CONSOLE
 // 11:50:37 PM ==> Joe is 27
+```
+
+### Class Injection
+```javascript
+infect.func(Function)
+```
+
+The `infect.func()` method can also support javascript classes. Just like above, all dependencies should be added to the end of the parameter list, and they are not expected when you `new` the constructor.
+
+```javascript
+function Cat(name, $Logger) {
+	$Logger(name + ' is a Cat');
+	this.name = name;
+}
+Cat = infect.func(Cat);
+
+var c = new Cat('Mr. Buttons');
+console.log('c is a Cat? ', c instanceof Cat);
+
+// CONSOLE
+// 11:50:37 PM ==> Mr. Buttons is a Cat
+// c is a Cat? true
 ```
 
 ### Object Injection

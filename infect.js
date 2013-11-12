@@ -27,7 +27,7 @@
 			pText += (pText.length > 0) ? ', ' + type(params[i]) : type(params[i]);
 		}
 
-		throw preErr + 'Invalid function parameters infect.' + f + '(' + pText + ')';
+		throw preErr + 'Invalid call to infect.' + f + '(' + pText + ')';
 	}
 
 	function set(name, value) {
@@ -52,21 +52,21 @@
 			for (; i-- ;) {
 				key = list[i];
 				key = key.indexOf(op) === 0 ? key.substr(op.length) : key;
-				if (type(key) !== 'string') { throw preErr + ' Keys must be strings'; }
 				object[op + key] = get(key);
-				if (object[op + key] === undefined) { throw preErr + 'Could not inject ' + key; }
 			}
 			return object;
 		} else { fail('obj', object, list); }
 	}
 
 	function func(fnc, scope) {
-		var i, key, args, argCount;
+		var i, key, args, argCount, Infected;
+
 		if (type(fnc) === 'function') {
 			scope = scope || {};
 			
 			// pull the function's parameters as a string
-			args = /\(([^)]+)/.exec(fnc.toString())[1];
+			args = /\(([^)]+)/.exec(fnc.toString());
+			args = (args !== null) ? args[1] : '';
 			if (args) { args = args.split(/\s*,\s*/); }
 
 			i = argCount = args.length;
@@ -76,26 +76,42 @@
 					args = args.slice(i+1);
 					break;
 				}
-				args[i] = get(key);
+				args[i] = get(key) || key;
 			}
 
-			return function () {
+			Infected = function () {
 				var _args = Array.prototype.slice.call(arguments),
-					len = _args.length + args.length;
+					len = _args.length + args.length,
+					_scope = scope;
+
+				if (this instanceof Infected) {
+					_scope = this;
+				}
 
 				for (; len < argCount; len++) {
 					_args.push(undefined);
 				}
 
-				if (len > argCount) { throw preErr + 'Too many parameters! I expected <= ' +
-											(argCount - args.length) + ' but got ' + _args.length; }
+				i = args.length;
+				for (; i-- ;) {
+					if (type(args[i]) === 'string') {
+						args[i] = get(args[i]);
+					}
+				}
+
+				if (len > argCount) { throw preErr + 'Too many parameters! I expected ' +
+											(argCount - args.length) + ' (or less) but got ' + _args.length; }
 
 				// combine the injected params and actual params
 				_args = _args.concat(args);
 				
 				// execute the injected function
-				fnc.apply(scope, _args);
+				return fnc.apply(_scope, _args);
 			};
+
+			Infected.prototype = fnc.prototype;
+			Infected.prototype.constructor = Infected;
+			return Infected;
 		} else { fail('func', fnc, scope); }
 	}
 
@@ -103,9 +119,7 @@
 		'set': set,
 		'get': get,
 		'obj': obj,
-		'object': obj,
 		'func': func,
-		'function': func,
 		'funk': func
     };
 }));
