@@ -24,6 +24,7 @@ infect.set('Logger', function (str) {
 });
 ```
 
+---
 ### Function Injection
 ```javascript
 infect.func(Function, Object)
@@ -34,15 +35,16 @@ When you're writing a function that needs one or more dependency, simply pass it
 ```javascript
 var foo = infect.func(function (name, age, $Logger) {
 	$Logger(name + ' is ' + age);
-	return 'bar!';
 }, this);
 
-foo('Joe', 27); // bar!
+foo('Joe', 27);
 
 // CONSOLE
 // 11:50:37 PM ==> Joe is 27
 ```
+[view on jsFiddle](http://bit.ly/1e1jOt7)
 
+---
 ### Class Injection
 ```javascript
 infect.func(Function)
@@ -58,13 +60,15 @@ function Cat(name, $Logger) {
 Cat = infect.func(Cat);
 
 var c = new Cat('Mr. Buttons');
-console.log('c is a Cat? ', c instanceof Cat);
+infect.get('Logger')('is c a Cat? ' + (c instanceof Cat));
 
 // CONSOLE
 // 11:50:37 PM ==> Mr. Buttons is a Cat
-// c is a Cat? true
+// 11:50:37 PM ==> is c a Cat? true
 ```
+[view on jsFiddle](http://bit.ly/1bzE96F)
 
+---
 ### Object Injection
 ```javascript
 infect.obj(Object, Array)
@@ -86,7 +90,9 @@ ALSO_INFECTED.$Logger('bar!');
 // 11:50:37 PM ==> foo!
 // 11:50:37 PM ==> bar!
 ```
+[view on jsFiddle](http://bit.ly/1hCYgYX)
 
+---
 ### Assignment
 ```javascript
 infect.get(String)
@@ -101,6 +107,4 @@ log('foo bar!');
 // CONSOLE
 // 11:50:37 PM ==> foo bar!
 ```
-
-# jsFiddle Example
-Please feel free to checkout and fork [this jsFiddle](http://jsfiddle.net/amwmedia/56TYQ).
+[view on jsFiddle](http://bit.ly/1bmABTE)
