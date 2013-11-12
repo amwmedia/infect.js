@@ -3,7 +3,7 @@
 Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application.
 
 # Features
- - Extremely lightweight (1.5 Kb minified)
+ - Extremely lightweight (under 1kb min+gz)
  - Has no dependencies of its own
  - Supports module loading systems (RequireJS/AMD, Node.js) with browser global fallback.
  - 4 ways to inject your code (function, class, object, and assignment)
@@ -107,3 +107,6 @@ log('foo bar!');
 // 11:50:37 PM ==> foo bar!
 ```
 [view on jsFiddle](http://bit.ly/1bmABTE)
+
+---
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/a1013eea091e2a1284cc42d17830b6b4 "githalytics.com")](http://githalytics.com/amwmedia/infect.js)
