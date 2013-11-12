@@ -6,7 +6,6 @@ Infect.js is a simple way to add the magic of dependency injection to any web pr
  - Extremely lightweight (1.5 Kb minified)
  - Has no dependencies of its own
  - Supports module loading systems (RequireJS/AMD, Node.js) with browser global fallback.
- - Easy to inject multiple dependencies with a single call to `infect`
  - 4 ways to inject your code (function, class, object, and assignment)
 
 # Getting Started
