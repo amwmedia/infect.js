@@ -1,6 +1,10 @@
 {
   "name": "infect",
-  "version": "0.3.1",
+  "version": "0.3.2",
+  "license": "MIT",
+  "description": "Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application. It's infectiously simple!",
+  "author": "Andrew Worcester <andrew@amwmedia.com> (http://blog.amwmedia.com/)",
+  "main": "infect.js",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.6.3",
@@ -9,18 +13,8 @@
     "grunt-contrib-qunit": "~0.3.0",
     "grunt-contrib-watch": "~0.5.3"
   },
-  "description": "Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application. It's infectiously simple!",
-  "main": "infect.js",
   "directories": {
     "test": "test"
-  },
-  "dependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-uglify": "~0.2.5",
-    "grunt-contrib-jshint": "~0.6.5",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-nodeunit": "~0.2.2",
-    "grunt-contrib-qunit": "~0.3.0"
   },
   "scripts": {
     "test": "grunt qunit"
@@ -39,8 +33,6 @@
     "inject",
     "infect"
   ],
-  "author": "Andrew Worcester <andrew@amwmedia.com> (http://blog.amwmedia.com/)",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/amwmedia/infect.js/issues"
   }

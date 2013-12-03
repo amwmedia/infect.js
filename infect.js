@@ -1,6 +1,6 @@
 /* ========================================================================
- * infect.js v0.3.1
- * Support for knockoutjs observables that are available to all view models
+ * infect.js v0.3.2
+ * Dependency injection for any web project
  *
  * Copyright (c) 2013 Andrew Worcester (amwmedia.com)
  * https://github.com/amwmedia/infect.js
