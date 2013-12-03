@@ -1,3 +1,17 @@
+/* ========================================================================
+ * infect.js v0.3.1
+ * Support for knockoutjs observables that are available to all view models
+ *
+ * Copyright (c) 2013 Andrew Worcester (amwmedia.com)
+ * https://github.com/amwmedia/infect.js
+ *
+ * Author: Andrew Worcester
+ * Website: amwmedia.com
+ *
+ * Released under the MIT license
+ * https://github.com/amwmedia/infect.js/blob/master/LICENSE
+ * ------------------------------------------------------------------------ */
+
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -12,19 +26,18 @@
 }(this, function () {
 	var strains = {},
 		op = '$',
-		preErr = ' :: infect.js => ';
+		preErr = ' == infect.js => ';
 
 	/**
 	 * Type checking for any type
 	 *
 	 * @method type
-	 * @param {Anything} object to be type checked
+	 * @param {Anything} obj: object to be type checked
 	 * @return {String} string equiv of the type passed in
 	 *			example: string, number, date, object, etc
 	 */
-	function type(o) {
-		o = Object.prototype.toString.call(o);
-		return o.match(/ (.*)]/)[1].toLowerCase();
+	function type(obj) {
+		return (/ (.*)]/).exec(Object.prototype.toString.call(obj))[1];
 	}
 
 	/**
@@ -37,7 +50,7 @@
 	 * @return {Throw} thows an error, no return
 	 */
 	function fail(funcName) {
-		var params = Array.prototype.slice.call(arguments, 1),
+		var params = [].slice.call(arguments, 1),
 			pText = '', i;
 
 		for (i=0; i<params.length; i++) {
@@ -55,7 +68,7 @@
 	 * @param {Mutable Object} value: the dependency to store for injection
 	 */
 	function set(name, value) {
-		if (type(name) === 'string' && type(value) !== 'undefined' && value instanceof Object) {
+		if (type(name) === 'String' && type(value) !== 'Undefined' && value instanceof Object) {
 			name = name.indexOf(op) === 0 ? name.substr(op.length) : name;
 			strains[name] = value;
 		} else { fail('set', name, value); }
@@ -69,7 +82,7 @@
 	 * @return {Mutable Object} the dependency from the store
 	 */
 	function get(name) {
-		if (type(name) === 'string') {
+		if (type(name) === 'String') {
 			name = name.indexOf(op) === 0 ? name.substr(op.length) : name;
 			return strains[name] || undefined;
 		} else { fail('get', name); }
@@ -85,7 +98,7 @@
 	 */
 	function obj(object, list) {
 		var key, i;
-		if (type(object) === 'object' && list instanceof Array) {
+		if (type(object) === 'Object' && list instanceof Array) {
 			// assign parameters to more logical names
 			i = list.length;
 			for (; i-- ;) {
@@ -109,7 +122,7 @@
 	function func(fnc, scope) {
 		var i, key, args, argCount, Infected;
 
-		if (type(fnc) === 'function') {
+		if (type(fnc) === 'Function') {
 			scope = scope || {};
 			
 			// pull the function's parameters as a string
@@ -142,7 +155,7 @@
 			Infected = function () {
 				// convert the parameters passed to the injected
 				// function to a proper array
-				var _args = Array.prototype.slice.call(arguments),
+				var _args = [].slice.call(arguments),
 					// the total number of params we have for execution
 					len = _args.length + args.length,
 					_scope = scope;
@@ -163,7 +176,7 @@
 				// keys that have not been injected yet, try to inject
 				i = args.length;
 				for (; i-- ;) {
-					if (type(args[i]) === 'string') {
+					if (type(args[i]) === 'String') {
 						args[i] = get(args[i]);
 					}
 				}
