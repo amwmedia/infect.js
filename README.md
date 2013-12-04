@@ -10,6 +10,7 @@ Infect.js is a simple way to add the magic of dependency injection to any web pr
 
 # Installation
 Download: [Source](https://raw.github.com/amwmedia/infect.js/master/infect.js) | [Minified](https://raw.github.com/amwmedia/infect.js/master/infect.min.js)
+
 NPM: `npm install infect`
 
 # Getting Started
