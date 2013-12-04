@@ -1,5 +1,5 @@
 /* ========================================================================
- * infect.js v0.3.2
+ * infect.js v0.3.3
  * Dependency injection for any web project
  *
  * Copyright (c) 2013 Andrew Worcester (amwmedia.com)

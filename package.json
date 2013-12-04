@@ -1,14 +1,16 @@
 {
   "name": "infect",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "license": "MIT",
   "description": "Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application. It's infectiously simple!",
-  "author": "Andrew Worcester <andrew@amwmedia.com> (http://blog.amwmedia.com/)",
   "main": "infect.js",
+  "author": {
+    "name": "Andrew Worcester",
+    "email": "andrew@amwmedia.com",
+    "url": "http://blog.amwmedia.com"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.3",
-    "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-qunit": "~0.3.0",
     "grunt-contrib-watch": "~0.5.3"
