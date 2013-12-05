@@ -2,6 +2,8 @@
 
 Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application. It's infectiously simple!
 
+[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=454PTSYM7FKLU)
+
 # Features
  - Extremely lightweight (under 1kb min+gz)
  - Has no dependencies of its own
@@ -12,6 +14,8 @@ Infect.js is a simple way to add the magic of dependency injection to any web pr
 Download: [Source](https://raw.github.com/amwmedia/infect.js/master/infect.js) | [Minified](https://raw.github.com/amwmedia/infect.js/master/infect.min.js)
 
 NPM: `npm install infect`
+
+Bower: `bower install infect`
 
 # Getting Started
 ### Registering a dependency
