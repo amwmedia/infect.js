@@ -2,7 +2,7 @@
 
 Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application. It's infectiously simple!
 
-[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=454PTSYM7FKLU)
+[buy me a cup of coffee?](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=454PTSYM7FKLU)
 
 # Features
  - Extremely lightweight (under 1kb min+gz)
@@ -38,7 +38,7 @@ infect.set('Logger', function (str) {
 infect.func(Function, Object)
 ```
 
-When you're writing a function that needs one or more dependency, simply pass it to `infect.func()` and reference the dependencies as parameters that are prepended with a dollar sign (`$`). All dependencies should be added to the end of the parameter list, and they are not expected when you call the function. Optionally you may pass in an object that you want to be used as `this` inside the function.
+When you're writing a function that needs one or more dependency, simply pass it to `infect.func()` and reference the dependencies as parameters that are prefixed with a dollar sign (`$`). All dependencies should be added to the end of the parameter list, and they are not expected when you call the function. Optionally you may pass in an object that you want to be used as `this` inside the function. If no object is provided, a blank object will be created for this purpose (the global scope will not be used).
 
 ```javascript
 var foo = infect.func(function (name, age, $Logger) {
@@ -58,7 +58,7 @@ foo('Joe', 27);
 infect.func(Function)
 ```
 
-The `infect.func()` method can also support javascript classes. Just like above, all dependencies should be added to the end of the parameter list, and they are not expected when you `new` the constructor.
+The `infect.func()` method can also support javascript constructors (classes). Just like above, all dependencies should be added to the end of the parameter list, and they are not expected when you `new` the constructor.
 
 ```javascript
 function Cat(name, $Logger) {
@@ -84,7 +84,7 @@ infect.obj(Object, Array)
 
 Sometimes function injection may not work for you, but you'd still like an easy way to pull multiple dependencies into a single place for reference within your code. Object injection suits this nicely and can be done by simply calling `infect.obj()` with an object and an array of dependency names you'd like to have injected. Please node that any object can be injected except the global `Window` object (for obvious reasons). If you try to infect the global scope, `infect` will throw an error.
 
-*NOTE:* You can reference the dependency with or without the prepended dollar sign (`$`) but, in either case, *the object will be infected with the prepended version*.
+*NOTE:* You can reference the dependency with or without the dollar sign prefix (`$`). Regardless of how you reference it, *the object will be injected with the prefixed version for consistency*.
 
 ```javascript
 var INFECTED = infect.obj({}, ['$Logger']);
