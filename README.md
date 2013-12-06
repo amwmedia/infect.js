@@ -9,6 +9,14 @@ Infect.js is a simple way to add the magic of dependency injection to any web pr
  - Has no dependencies of its own
  - Supports module loading systems (RequireJS/AMD, Node.js) with browser global fallback.
  - 4 ways to inject your code (function, class, object, and assignment)
+ - Works in every browser I've tested so far
+
+# Browser Support (verified)
+ - Internet Explorer 6+
+ - Chome 14+
+ - Firefox 3.6+
+ - Android
+ - iOS
 
 # Installation
 Download: [Source](https://raw.github.com/amwmedia/infect.js/master/infect.js) | [Minified](https://raw.github.com/amwmedia/infect.js/master/infect.min.js)
