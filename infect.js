@@ -117,21 +117,37 @@
 	 * @param {Function} func: the function to be injected
 	 * @param {Object} scope: if the function is not used as a constructor
 	 *				this object is used as this inside the Injected function
+	 * @param {Array} $inject: property is an array of service names to inject
+	 				  for minification code.
 	 * @return {Function} the injected function
 	 */
-	function func(fnc, scope) {
-		var i, key, args, argCount, Infected;
+	function func(fnc, scope, $inject) {
+		var i, key, args, argCount, Infected, forced_injection;
 
 		if (type(fnc) === 'Function') {
 			scope = scope || {};
-			
-			// pull the function's parameters as a string
-			args = /\(([^)]+)/.exec(fnc.toString());
-			// make sure there are parameters provided
-			args = (args !== null) ? args[1] : '';
-			// if we have parameters, split them into an array
-			// while removing whitespace from both ends
-			if (args) { args = args.split(/\s*,\s*/); }
+
+			if (type($inject) == 'Array' && $inject.length > 0) {
+				// if $inject define, then  use from it.
+				args = $inject
+					.map(function (service) {
+						if (service[0] === op) {
+							service = service.slice(1);
+						}
+						return service;
+					}).map(function (service) {
+						return op + service;
+					});
+				forced_injection = true;
+			} else {
+				// pull the function's parameters as a string
+				args = /\(([^)]+)/.exec(fnc.toString());
+				// make sure there are parameters provided
+				args = (args !== null) ? args[1] : '';
+				// if we have parameters, split them into an array
+				// while removing whitespace from both ends
+				if (args) { args = args.split(/\s*,\s*/); }
+			}
 
 			// store the total number of original arguments provided
 			// so we know what we should expect when the function is executed
@@ -183,8 +199,10 @@
 
 				// we cannot handle more arguments than the function was originally
 				// declared with, throw an error
-				if (len > argCount) { throw preErr + 'Too many parameters! I expected ' +
-											(argCount - args.length) + ' (or less) but got ' + _args.length; }
+				if (!forced_injection && len > argCount) { 
+					throw preErr + 'Too many parameters! I expected ' +
+						(argCount - args.length) + ' (or less) but got ' + _args.length; 
+				}
 
 				// combine the injected params and actual params
 				_args = _args.concat(args);

@@ -63,3 +63,26 @@ test( 'Infected constructors should construct', function () {
 	equal(a2.name, name, 'new InfectedApple() params are passing through');
 	ok(a2 instanceof Apple, 'new InfectedApple() is instanceof Apple');
 });
+
+
+test('should work "infect.func" with minification code', function () {
+	var $res = null;
+	infect.set('checker', function (saveParam) {
+		$res = saveParam;
+	});
+	infect.set('params', { name: '...Test Param...' });
+
+	// minification code.
+	// ps. http://jscompress.com/
+	var InfectedClass=infect.func(function(e,t,n){this.param=e;t(n)},null,["$checker","params"]);
+
+	equal($res, null, 'result has been init to null');
+
+	var instance = new InfectedClass('test');
+
+	equal($res.name, '...Test Param...',
+		'result should set from $params');
+
+	equal(instance.param, 'test',
+		'Constructor is injecting testing params!');
+});
