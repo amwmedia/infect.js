@@ -43,7 +43,7 @@ infect.set('Logger', function (str) {
 ---
 ### Function Injection
 ```javascript
-infect.func(Function, Object)
+infect.func(Function, Object, Array)
 ```
 
 When you're writing a function that needs one or more dependency, simply pass it to `infect.func()` and reference the dependencies as parameters that are prefixed with a dollar sign (`$`). All dependencies should be added to the end of the parameter list, and they are not expected when you call the function. Optionally you may pass in an object that you want to be used as `this` inside the function. If no object is provided, a blank object will be created for this purpose (the global scope will not be used).
@@ -60,11 +60,25 @@ foo('Joe', 27);
 ```
 [view on jsFiddle](http://bit.ly/1e1jOt7)
 
+
+#### UPD
+You may forced injection with additional service list in `infect.func()`
+
+```javascript
+var foo = infect.func(function (name, age, logger) {
+	logger(name + ' is ' + age);
+}, this, ['$Logger']);
+
+foo('Joe', 27);
+
+// CONSOLE
+// 11:50:37 PM ==> Joe is 27
+```
+
+This code should work with minificators (jscompress, uglify etc..) !
+
 ---
 ### Class Injection
-```javascript
-infect.func(Function)
-```
 
 The `infect.func()` method can also support javascript constructors (classes). Just like above, all dependencies should be added to the end of the parameter list, and they are not expected when you `new` the constructor.
 
