@@ -1,0 +1,6 @@
+node_modules/
+test/
+Gruntfile.js
+LICENSE
+*.json
+*.md
