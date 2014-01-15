@@ -1,4 +1,4 @@
-# Infect.js
+# Infect.js - simple dependency injection
 
 Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application. It's infectiously simple!
 
@@ -124,6 +124,27 @@ log('foo bar!');
 // 11:50:37 PM ==> foo bar!
 ```
 [view on jsFiddle](http://bit.ly/1bmABTE)
+
+---
+### Minification and Obfuscation
+```javascript
+Function.$infect = Array
+```
+
+When running your code through minification or obfuscation, the function parameters get renamed in order to save space. Obviously this wreaks havoc on Infect's ability to detect what values should be injected into the function at execution. To solve this you can simply add an array of dependency names to the `$infect` property of your function and infect will inject these values into the function.
+
+```javascript
+var foo = infect.func(function (n, a, L) {
+	L(n + ' is ' + a);
+}, this);
+foo.$infect = ['Logger'];
+
+foo('Joe', 27);
+
+// CONSOLE
+// 11:50:37 PM ==> Joe is 27
+```
+[view on jsFiddle](http://bit.ly/LdgxOl)
 
 ---
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/a1013eea091e2a1284cc42d17830b6b4 "githalytics.com")](http://githalytics.com/amwmedia/infect.js)

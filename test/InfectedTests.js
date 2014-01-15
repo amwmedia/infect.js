@@ -63,3 +63,50 @@ test( 'Infected constructors should construct', function () {
 	equal(a2.name, name, 'new InfectedApple() params are passing through');
 	ok(a2 instanceof Apple, 'new InfectedApple() is instanceof Apple');
 });
+
+test( 'Minified Infect constructors should construct', function () {
+	infect.set('a', {'apple': 'delicious'});
+	function Apple(n, a) {
+		this.name = n;
+		this.apple = a.apple;
+	}
+	Apple.$infect = ['a'];
+
+	var name = 'Granny Smith';
+	var InfectedApple = infect.func(Apple);
+
+	var a1 = new Apple(name, infect.get('a'));
+	var a2 = new InfectedApple(name);
+
+	equal(a2.apple, a1.apple, 'Constructor is injecting and building');
+	equal(a2.name, name, 'new InfectedApple() params are passing through');
+	ok(a2 instanceof Apple, 'new InfectedApple() is instanceof Apple');
+});
+
+test( 'Function injection', function() {
+	var func = function () { return 'apple'; };
+	infect.set('key', func);
+	
+	// regular function injection
+	function infected ($key) {
+		return $key();
+	}
+	infected = infect.func(infected);
+
+	// minified function injection
+	function minInfected (k) {
+		return k();
+	}
+	minInfected.$infect = ['key'];
+	minInfected = infect.func(minInfected);
+
+	// another minified function test
+	var varMinInfected = infect.func(function (k) {
+		return k();
+	});
+	varMinInfected.$infect = ['key'];
+
+	equal(func(), infected(), 'injected function returns the same value as original function');
+	equal(func(), minInfected(), 'minified injected function returns the same value as original function');
+	equal(func(), varMinInfected(), 'minified (var assigned) injected function returns the same value as original function');
+});

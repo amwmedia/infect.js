@@ -1,5 +1,5 @@
 /* ========================================================================
- * infect.js v0.3.3
+ * infect.js v0.4.0
  * Dependency injection for any web project
  *
  * Copyright (c) 2013 Andrew Worcester (amwmedia.com)
@@ -153,6 +153,10 @@
 			}
 
 			Infected = function () {
+				// if the function was compiled, the $infect property can
+				// be attached in order to force injection
+				args = (Infected.$infect && Infected.$infect.length > 0 && !args.length) ? Infected.$infect : args;
+
 				// convert the parameters passed to the injected
 				// function to a proper array
 				var _args = [].slice.call(arguments),
@@ -197,6 +201,11 @@
 			// a constructor properly
 			Infected.prototype = fnc.prototype;
 			Infected.prototype.constructor = Infected;
+
+			// pass the $infect property through to the infected function
+			// in case it was applied to the original function
+			Infected.$infect = fnc.$infect;
+
 			return Infected;
 		} else { fail('func', fnc, scope); }
 	}
