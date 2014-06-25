@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			scripts: {
-				files: ['infect.js'],
+				files: ['infect.js', 'test/*.js'],
 				tasks: ['uglify', 'qunit']
 			}
 		},

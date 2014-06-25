@@ -1,3 +1,5 @@
+'use strict';
+
 test( 'SET and GET object', function() {
 	var obj = {'a': 'apple'};
 	infect.set('key', obj);
@@ -85,8 +87,11 @@ test( 'Minified Infect constructors should construct', function () {
 
 test( 'Function injection', function() {
 	var func = function () { return 'apple'; };
+	var func2 = function () { return 'orange'; };
+
 	infect.set('key', func);
-	
+	infect.set('key2', func2);
+
 	// regular function injection
 	function infected ($key) {
 		return $key();
@@ -106,7 +111,12 @@ test( 'Function injection', function() {
 	});
 	varMinInfected.$infect = ['key'];
 
+	var minInfected2 = infect.func(['key', 'key2', function (h, k, k2) {
+		return h + k() + k2();
+	}]);
+
 	equal(func(), infected(), 'injected function returns the same value as original function');
 	equal(func(), minInfected(), 'minified injected function returns the same value as original function');
 	equal(func(), varMinInfected(), 'minified (var assigned) injected function returns the same value as original function');
+	equal('hello ' + func() + func2(), minInfected2('hello '), 'minitied without setting $infect prop');
 });

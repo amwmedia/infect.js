@@ -1,5 +1,5 @@
 /* ========================================================================
- * infect.js v0.4.0
+ * infect.js v0.4.5
  * Dependency injection for any web project
  *
  * Copyright (c) 2013 Andrew Worcester (amwmedia.com)
@@ -13,6 +13,8 @@
  * ------------------------------------------------------------------------ */
 
 (function (root, factory) {
+	'use strict';
+
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(factory);
@@ -24,6 +26,8 @@
         root.infect = factory();
   }
 }(this, function () {
+	'use strict';
+
 	var strains = {},
 		op = '$',
 		preErr = ' == infect.js => ';
@@ -120,11 +124,17 @@
 	 * @return {Function} the injected function
 	 */
 	function func(fnc, scope) {
-		var i, key, args, argCount, Infected;
+		var i, key, args, argCount, Infected, $infect;
+
+		if (type(fnc) === 'Array') {
+			$infect = fnc;
+			fnc = $infect.pop();
+			fnc.$infect = $infect;
+		}
 
 		if (type(fnc) === 'Function') {
 			scope = scope || {};
-			
+
 			// pull the function's parameters as a string
 			args = /\(([^)]+)/.exec(fnc.toString());
 			// make sure there are parameters provided
@@ -192,7 +202,7 @@
 
 				// combine the injected params and actual params
 				_args = _args.concat(args);
-				
+
 				// execute the injected function
 				return fnc.apply(_scope, _args);
 			};
