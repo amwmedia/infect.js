@@ -118,5 +118,5 @@ test( 'Function injection', function() {
 	equal(func(), infected(), 'injected function returns the same value as original function');
 	equal(func(), minInfected(), 'minified injected function returns the same value as original function');
 	equal(func(), varMinInfected(), 'minified (var assigned) injected function returns the same value as original function');
-	equal('hello ' + func() + func2(), minInfected2('hello '), 'minitied without setting $infect prop');
+	equal('hello ' + func() + func2(), minInfected2('hello '), 'minified without setting $infect property');
 });
