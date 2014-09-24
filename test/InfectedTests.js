@@ -2,9 +2,10 @@
 
 test( 'SET and GET object', function() {
 	var obj = {'a': 'apple'};
-	infect.set('key', obj);
+	var setTo = infect.set('key', obj);
 
 	equal(obj, infect.get('key'), 'object used to SET equals the object returned from GET');
+	equal(obj, setTo, 'object used to SET returned value from SET');
 });
 
 test( 'SET and GET function', function() {

@@ -15,16 +15,16 @@
 (function (root, factory) {
 	'use strict';
 
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(factory);
-    } else if (typeof exports === 'object') {
-        // Node.js
-        module.exports = factory();
-    } else {
-        // Browser globals
-        root.infect = factory();
-  }
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define(factory);
+	} else if (typeof exports === 'object') {
+		// Node.js
+		module.exports = factory();
+	} else {
+		// Browser globals
+		root.infect = factory();
+	}
 }(this, function () {
 	'use strict';
 
@@ -75,7 +75,8 @@
 		if (type(name) === 'String' && type(value) !== 'Undefined' && value instanceof Object) {
 			name = name.indexOf(op) === 0 ? name.substr(op.length) : name;
 			strains[name] = value;
-		} else { fail('set', name, value); }
+			return value;
+		} else { fail('set', name, value); return undefined; }
 	}
 
 	/**
@@ -220,11 +221,11 @@
 		} else { fail('func', fnc, scope); }
 	}
 
-    return {
+	return {
 		'set': set,
 		'get': get,
 		'obj': obj,
 		'func': func,
 		'funk': func
-    };
+	};
 }));

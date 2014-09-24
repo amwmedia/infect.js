@@ -1,6 +1,6 @@
 {
   "name": "infect",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "license": "MIT",
   "description": "Infect.js is a simple way to add the magic of dependency injection to any web project, regardless of the framework on which you choose to write your application. It's infectiously simple!",
   "main": "infect.js",
