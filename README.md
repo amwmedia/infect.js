@@ -90,7 +90,7 @@ infect.get('Logger')('is c a Cat? ' + (c instanceof Cat));
 infect.obj(Object, Array)
 ```
 
-Sometimes function injection may not work for you, but you'd still like an easy way to pull multiple dependencies into a single place for reference within your code. Object injection suits this nicely and can be done by simply calling `infect.obj()` with an object and an array of dependency names you'd like to have injected. Please node that any object can be injected except the global `Window` object (for obvious reasons). If you try to infect the global scope, `infect` will throw an error.
+Sometimes function injection may not work for you, but you'd still like an easy way to pull multiple dependencies into a single place for reference within your code. Object injection suits this nicely and can be done by simply calling `infect.obj()` with an object and an array of dependency names you'd like to have injected. Any object can be injected except the global `Window` object (for obvious reasons). If you try to infect the global scope, `infect` will throw an error.
 
 *NOTE:* You can reference the dependency with or without the dollar sign prefix (`$`). Regardless of how you reference it, *the object will be injected with the prefixed version for consistency*.
 
@@ -145,6 +145,3 @@ foo('Joe', 27);
 // 11:50:37 PM ==> Joe is 27
 ```
 [view on jsFiddle](http://bit.ly/LdgxOl)
-
----
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/a1013eea091e2a1284cc42d17830b6b4 "githalytics.com")](http://githalytics.com/amwmedia/infect.js)
